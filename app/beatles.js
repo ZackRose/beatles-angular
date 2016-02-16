@@ -36,14 +36,7 @@ Beatles.controller('BeatlesControl', function($scope, $state, $http, $stateParam
       return $scope.currentCategory !== null && category === $scope.currentCategory;
   }
 
-  function setCurrentCategory(category) {
-      $scope.currentCategory = category;
-
-      $state.go('store', {type:category});
-  }
-
   $scope.isCurrentCategory = isCurrentCategory;
-  $scope.setCurrentCategory = setCurrentCategory;
 
 
   $scope.merchtypes = [

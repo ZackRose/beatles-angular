@@ -19,7 +19,7 @@ var Beatles = angular.module("beatles", [
     })
 });
 
-Beatles.controller('BeatlesControl', function($scope, $http, $stateParams) {
+Beatles.controller('BeatlesControl', function($scope, $state, $http, $stateParams) {
   //var beatlesCtrl = this;
 
   var defaultCategory = "Shirt";
@@ -38,6 +38,8 @@ Beatles.controller('BeatlesControl', function($scope, $http, $stateParams) {
 
   function setCurrentCategory(category) {
       $scope.currentCategory = category;
+
+      $state.go('store', {type:category});
   }
 
   $scope.isCurrentCategory = isCurrentCategory;

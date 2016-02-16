@@ -1,0 +1,142 @@
+<!doctype html>
+<html ng-app="Beatles">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Beatles - Angular</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+        <!--link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"-->
+        <link rel="stylesheet" href="css/style.css">
+
+    </head>
+    <body ng-controller="BeatlesControl">
+
+      <header class="logo">
+              <h1>Beatles - AngularJS</h1>
+              <nav class="mainnav">
+                      <ul class="mainul">
+                              <li><a class="greenlink" href="#">Main</a> </li>
+                               <li><a class="greenlink" href="#">Store</a></li>
+                              <li>
+                                <a class="greenlink" id="cartButton" href="#">
+                                  <img src="images/shoppingcart.png" style="height: 1.5em;" vertical-align="middle">
+                                  <span class="cartHeader">(<span class="simpleCart_quantity"></span>)</span>
+                                </a>
+                              </li>
+                      </ul>
+              </nav>
+      </header>
+
+
+
+      <main>
+      <section class="primary">
+
+      <header>
+              <h1>Beatles Angular Store</h1>
+      </header>
+
+
+
+      <div class="merchoptionsnew test">
+        <div>
+          <a ng-repeat="merchtype in merchtypes" ng-click="setCurrentCategory(merchtype.type)" ng-class="{'current':isCurrentCategory(merchtype.type)}" class="merchlink blacklink">{{merchtype.name}}</a>
+        </div>
+      </div>
+
+      <h2> <a href="/cart/" class="greenlink">
+        <img src="images/shoppingcart.png" style="height: 1.25em; margin-right:.5em;" vertical-align="middle" />
+
+        Cart: <span class="cartHeader">(<span class="simpleCart_quantity"></span> items)</span>
+      </a>
+        <img src="images/paypal-whitestroke.png" style="height: 2em;" vertical-align="middle" />
+      </h2>
+
+      <div class="merchandise pre-scrollable">
+        <!-- merch goes here -->
+        <div ng-repeat="product in products | filter:{info_type:currentCategory}" class="merchitem col-sm-12 col-md-6 col-lg-4 simpleCart_shelfItem">
+
+        <div class="title">{{product.info_title}}</div>
+        <div class="item_name" style="display:none;">{{product.info_title}} [{{product.info_type}}]</div>
+
+        <div class="merchthumb">
+
+            <a ng-if="product.itemdetail" class = "itemdetail" href="images/merch/{{product.itemdetail}}" data-width="{{product.imagewidth}}" data-height="{{product.imageheight}}">
+              <img ng-if="product.thumbnail" src="images/merch/{{product.thumbnail}}" />
+              <img ng-if="!product.thumbnail" src="images/merch/default_thumb.png" />
+              <span class="itemdetailtext">See Detail</span>
+            </a>
+
+            <span ng-if="!product.itemdetail">
+              <img ng-if="product.thumbnail" src="images/merch/{{product.thumbnail}}" />
+              <img ng-if="!product.thumbnail" src="images/merch/default_thumb.png" />
+
+              <span class="itemdetailtext">&nbsp;</span>
+            </span>
+
+
+        </div>
+
+        <div class = "info">
+                <!--div class="description">{{product.info_description}}</div-->
+        </div>
+
+
+        <div ng-if="product.is_soldout == true" class="input-group" >
+        <div class="input-group-addon soldoutitem">SOLD OUT</div>
+        </div>
+
+
+        <div ng-if="product.is_soldout == false" class="input-group" >
+          <!--div class="input-group-addon type">{{product.info_type}}</div-->
+          <div class="input-group-addon price item_price">{{product.info_price}}</div>
+
+
+            <span ng-if="product.options" class="input-group-addon select-group">
+              <select class="c-select select-item item_size"><option>options</option></select>
+            </span>
+
+
+          <div class="input-group-btn">
+          <button name="type" type="button" value="add" class="btn btn-success item_add pull-left">Add</button>
+          </div>
+
+        </div>
+
+
+
+        </div>
+
+
+        <!--End Merch data-->
+
+        </div>
+
+
+
+
+      </div>
+
+
+</section>
+
+<footer>
+<p>&copy; Michael Jackson 2016</p>
+</footer>
+
+</main>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <!--script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-animate.min.js"></script>
+
+        <script src="vendor/angular-ui-router.min.js"></script>
+        <script src="app/beatles.js"></script>
+
+    </body>
+</html>

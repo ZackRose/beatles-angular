@@ -1,0 +1,361 @@
+body
+{
+	color: black;
+	background: black;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 100%;
+	min-width: 40em;
+	text-align: center;
+}
+
+h1 { font-size: 1.5em;}
+h2 { font-size: 1.375em;}
+h3 { font-size: 1.125em;}
+h4,p { font-size: 1em;}
+h5 { font-size: .75em;}
+h6 { font-size: .625em;}
+
+
+a[ng-click]{
+    cursor: pointer;
+}
+
+/*
+Code for image on site intro.
+The image is horizontally centered
+at 100% of the height of the window
+ */
+body.siteintro
+{
+		background: black;
+		margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body.siteintro main
+{
+	margin: auto;
+}
+
+body.siteintro main img
+{
+    max-height: 100%;
+    height: auto;
+    position: fixed;
+    left:0;
+    right:0;
+    margin:0 auto;
+}
+/**  End Siteintro code **/
+
+a:hover .cartHeader
+{
+	color: black;
+	transition:.75s;
+}
+
+
+.cartHeader
+{
+	color: white;
+}
+
+main
+{
+	width: 85%;
+	margin: 0 auto;
+}
+
+section.primary {
+	background-color: #777;
+	border-radius: .5em;
+	background-image: url(../images/backgrounds/beatlesfaces-trans.png);
+	background-size: 70%;
+	background-repeat: no-repeat;
+	background-position: top center;
+	padding:.4375em;/* 7pixels*/
+	/*min-height: 600px;*/
+	margin-top:.3125em;/* 5pixels*/
+}
+
+
+
+header.logo {
+	display: block;
+	width: 31.25em;/* 500pixels*/
+	height: 18.75em;/* 300pixels*/
+	background: url(../images/backgrounds/beatleslogo-blue.png) 0 0 no-repeat;
+	background-size: 31.25em;/* 500pixels*/
+	position: relative;
+
+	margin: 0 auto;
+}
+
+header.logo h1
+{
+	text-indent: -5000em; /* For Screen readers, etc */
+}
+
+
+nav.mainnav {
+    width: 31.25em;/* 500pixels*/;
+    height: 2.1875em; /*35pixels*/
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+
+    position: absolute;
+    bottom: 0;
+		left: -25%;
+}
+
+ul.mainul {
+    height: auto;
+    padding: .5em 0;
+    margin: 0;
+}
+
+ul.mainul>li {
+  display: inline;
+}
+
+.subnav
+{
+	background: rgba(255, 255, 255, 0.80);
+	float: left;
+}
+
+.subnav li a
+{
+	text-decoration: none;
+	color:black;
+	display: block;
+	float: none;
+}
+
+.subnav li a:hover
+{
+	color:rgb(0, 168, 162);
+}
+
+a, a:hover { color: white; }
+
+a.greenlink, a.blacklink, a.current {
+
+	padding: .4375em; /* 7pixels */
+	border-radius: .375em; /* 6pixels */
+	margin-right: .9375em; /* 15pixels */
+	text-decoration: none;
+	transition:.75s;
+}
+a.greenlink
+{
+	background-color: rgba(0, 168, 162, 0.90);
+	color: black;
+}
+
+a.blacklink
+{
+	background-color: rgba(0, 0, 0, 0.90);
+	color: white;
+}
+
+a.greenlink:hover, a.blacklink:hover, a.current, a.current:hover {
+	background-color: rgba(255, 255, 255, 0.80);
+	color: black;
+}
+
+footer
+{
+	color: white;
+	clear: both;
+}
+
+/*Merch Page */
+
+.merchandise
+{
+    border: 1px solid black;
+    border-radius: .3125em; /* 5pixels */
+    background-color: rgba(0,0,0,.5);
+}
+
+@media only screen and (max-device-width : 480px)
+{
+		body {font-size: 175%;}
+}
+
+@media only screen and (max-device-width : 480px) and (orientation : portrait)
+{
+	.merchandise.pre-scrollable {
+		max-height: 45em;
+	}
+
+}
+
+.item_add:hover,.item_add:active, .item_add
+{
+	transition: background-color 0.5s ease;
+}
+
+.cartAddClicked:hover,.cartAddClicked:active,.cartAddClicked
+{
+	background-color: white;
+	color:black;
+}
+
+
+/* These are the click events for filtering and sorting */
+a.merchlink
+{
+	display: inline-block;
+	margin-bottom: .3125em; /* 5pixels*/
+}
+
+
+/* main div for a "merch item". This is basically a row in the database */
+.merchitem {
+	background-color: rgba(200, 200, 200, 0.75);
+	border:1px solid black;
+	border-radius: .25em;
+	color: black;
+	padding: .625em; /*10pixels*/
+}
+
+.type
+{
+	background-color: black;
+	color:white;
+}
+
+.soldoutitem
+{
+	line-height:1.5;
+	background-color:black;
+	color:white;
+	border-radius: .25em !important;
+}
+
+.title
+{
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.merchthumb
+{
+	height: 16em;
+	display: inline-block;
+	vertical-align: center;
+}
+
+.itemdetail
+{
+	display: block;
+}
+
+.merchthumb img
+{
+	max-height: 14em;
+	max-width: 14em;
+	transition: opacity .5s ease;
+}
+
+.merchitem .info
+{
+	position: relative;
+	text-align: left;
+}
+
+/* .itemdetail is the trigger for the modal window */
+.itemdetailtext
+{
+	text-decoration: none;
+	font-size: .9375em;
+	color:black;
+	font-weight: bold;
+	display: block;
+	transition: color .5s ease;
+}
+
+.itemdetail:hover
+{
+	text-decoration: none;
+}
+
+
+.itemdetail:hover .itemdetailtext {
+	color: white;
+}
+
+
+.itemdetail:hover img
+{
+	opacity: .5;
+}
+
+.bubble
+{
+	background-color: rgba(0, 0, 0, 0.75);
+	color: white;
+	border-radius: .625em; /* 10pixels*/
+	padding: .3125; /* 5pixels*/
+}
+
+.price
+{
+		font-weight: bold;
+		font-size: 130%;
+}
+
+.price::before
+{
+	content:"$";
+}
+
+.info .description
+{
+	font-size:.875em;
+	padding: .1875em; /* 3pixels*/
+	margin-top: .9375em; /* 15pixels*/
+}
+/**End merch page **/
+
+
+.select-group {
+    padding: 0;
+		background-color: white;
+}
+
+
+.select-item {
+    border: none;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 100%;
+		/*background-color: #eceeef;*/
+}
+
+/* Allow scrollbars to always show in OS X */
+.pre-scrollable::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+.pre-scrollable::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+		background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+}
+
+.pre-scrollable {
+    max-height: 400px;
+}
+
+
+
+.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group
+{
+	z-index: 0;
+}

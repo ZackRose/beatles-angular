@@ -1,5 +1,6 @@
 var Beatles = angular.module("beatles", [
-  'ui.router'
+  'ui.router',
+  'beatlesstore'
 ]).config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
   $stateProvider
@@ -8,7 +9,7 @@ var Beatles = angular.module("beatles", [
       templateUrl: "app/main/main.tmpl.html"
     })
     .state('store', {
-      url: "/store",
+      url: "/store/:type",
       templateUrl: "app/store/store.tmpl.html",
       controller: 'BeatlesControl'
     })
@@ -16,46 +17,46 @@ var Beatles = angular.module("beatles", [
       url: "/store",
       templateUrl: "app/cart/cart.tmpl.html"
     })
+});
 
-    /*.state('state2.list', {
-      url: "/list",
-        templateUrl: "partials/state2.list.html",
-        controller: function($scope) {
-          $scope.things = ["A", "Set", "Of", "Things"];
-        }
-      })*/
+Beatles.controller('BeatlesControl', function($scope, $http, $stateParams) {
+  //var beatlesCtrl = this;
+
+  var defaultCategory = "Shirt";
+
+  if ($stateParams.type) {
+    $scope.currentCategory = $stateParams.type;
+  }
+  else {
+    $scope.currentCategory = defaultCategory;
+  }
 
 
+  function isCurrentCategory(category) {
+      return $scope.currentCategory !== null && category === $scope.currentCategory;
+  }
+
+  function setCurrentCategory(category) {
+      $scope.currentCategory = category;
+  }
+
+  $scope.isCurrentCategory = isCurrentCategory;
+  $scope.setCurrentCategory = setCurrentCategory;
+
+
+  $scope.merchtypes = [
+      {"name": 'Shirts', "type": "Shirt"},
+      {"name": 'Vinyl', "type": "Vinyl"},
+      {"name": 'CDs', "type": "CD"},
+      {"name": 'Patches', "type": "Patch"}
+  ];
+
+
+
+  $http.get('products.json')
+   .then(function(res){
+      $scope.products = res.data;
+      console.log($scope.products);
     });
 
-    Beatles.controller('BeatlesControl', function($scope, $http) {
-      //var beatlesCtrl = this;
-
-      $scope.merchtypes = [
-          {"name": 'Shirts', "type": "Shirt"},
-          {"name": 'Vinyl', "type": "Vinyl"},
-          {"name": 'CDs', "type": "CD"},
-          {"name": 'Patches', "type": "Patch"}
-      ];
-
-      $http.get('products.json')
-       .then(function(res){
-          $scope.products = res.data;
-          console.log($scope.products);
-
-          $scope.currentCategory = "Shirt";
-
-          function isCurrentCategory(category) {
-              return $scope.currentCategory !== null && category === $scope.currentCategory;
-          }
-
-          function setCurrentCategory(category) {
-              $scope.currentCategory = category;
-          }
-
-          $scope.isCurrentCategory = isCurrentCategory;
-          $scope.setCurrentCategory = setCurrentCategory;
-
-        });
-
-    });
+});

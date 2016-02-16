@@ -1,1 +1,1 @@
-//angular.module('beatlesstore', [])
+angular.module('beatlesstore', [])

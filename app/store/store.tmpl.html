@@ -5,7 +5,7 @@
 
       <div class="merchoptionsnew test">
         <div>
-          <a ng-repeat="merchtype in merchtypes" ui-sref="store({type:merchtype.type})" ng-class="{'current':isCurrentCategory(merchtype.type)}" class="merchlink blacklink">{{merchtype.name}}</a>
+          <a ng-repeat="category in product_categories" ui-sref="store({type:category.type})" ng-class="{'current':isCurrentCategory(category.type)}" class="merchlink blacklink">{{category.name}}</a>
         </div>
       </div>
 

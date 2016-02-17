@@ -23,9 +23,16 @@ var Beatles = angular.module("beatles", [
 
 Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams, $localStorage) {
 
+//**** Store Page product categories ****\\
+
   var defaultCategory = "Shirt";
 
-  console.log (typeof $localStorage.beatlesCart);
+  $scope.product_categories = [
+      {"name": 'Shirts', "type": "Shirt"},
+      {"name": 'Vinyl', "type": "Vinyl"},
+      {"name": 'CDs', "type": "CD"},
+      {"name": 'Patches', "type": "Patch"}
+  ];
 
   if ($stateParams.type) {
     $scope.currentCategory = $stateParams.type;
@@ -34,27 +41,25 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
     $scope.currentCategory = defaultCategory;
   }
 
-
   function isCurrentCategory(category) {
       return $scope.currentCategory !== null && category === $scope.currentCategory;
   }
 
   $scope.isCurrentCategory = isCurrentCategory;
 
-  $scope.merchtypes = [
-      {"name": 'Shirts', "type": "Shirt"},
-      {"name": 'Vinyl', "type": "Vinyl"},
-      {"name": 'CDs', "type": "CD"},
-      {"name": 'Patches', "type": "Patch"}
-  ];
 
+
+  //Load product data
   $http.get('products.json')
    .then(function(res){
       $scope.products = res.data;
-      //console.log($scope.products);
     });
 
 
+
+    //** Cart object and methods **\\
+
+    //Load cart from localStorage
     if ($localStorage.beatlesCart === undefined) {
       $scope.invoice = [];
     }
@@ -62,6 +67,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       $scope.invoice = $localStorage.beatlesCart;
     }
 
+    //check to see if item in cart
     function itemInCart(product_id, option)
     {
       for (var i=0; i<$scope.invoice.length; i++)
@@ -73,6 +79,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       return false;
     }
 
+    //increment an item's quantity
     function itemIncrement(item_id, option)
     {
       for (var i=0; i<$scope.invoice.length; i++)
@@ -85,6 +92,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       }
     }
 
+    //return total quantity of items in cart
     function cartQuantity()
     {
       var quantity = 0;
@@ -95,16 +103,18 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       return quantity;
     }
 
-    $scope.cartQuantity = cartQuantity;
 
+    //add a product to the cart
     function addToCart(product, selectedoption)
     {
       if (itemInCart(product.id, selectedoption) )
       {
+        //If item id (With selected option) is in cart, increment instead of adding a duplicate
         itemIncrement(product.id, selectedoption);
       }
       else
       {
+        //Otherwise push a new item with quantity of 1
         $scope.invoice.push({
           id: product.id,
           name: product.info_title,
@@ -119,6 +129,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       console.log($scope.invoice);
     }
 
+    $scope.cartQuantity = cartQuantity;
     $scope.addToCart = addToCart;
 
 });

@@ -1,5 +1,6 @@
 var Beatles = angular.module("beatles", [
   'ui.router',
+  'ngStorage',
   'beatlesstore'
 ]).config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
@@ -20,9 +21,11 @@ var Beatles = angular.module("beatles", [
     })
 });
 
-Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams) {
+Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams, $localStorage) {
 
   var defaultCategory = "Shirt";
+
+  console.log (typeof $localStorage.beatlesCart);
 
   if ($stateParams.type) {
     $scope.currentCategory = $stateParams.type;
@@ -51,7 +54,13 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams)
       //console.log($scope.products);
     });
 
-  $scope.invoice = [];
+
+    if ($localStorage.beatlesCart === undefined) {
+      $scope.invoice = [];
+    }
+    else {
+      $scope.invoice = $localStorage.beatlesCart;
+    }
 
     function itemInCart(product_id, option)
     {
@@ -70,6 +79,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams)
        {
         if ($scope.invoice[i].id == item_id && $scope.invoice[i].option == option){
           $scope.invoice[i].qty++;
+          $localStorage.beatlesCart = $scope.invoice;
           break;
         }
       }
@@ -103,6 +113,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams)
           option: selectedoption,
           qty: 1
         });
+        $localStorage.beatlesCart = $scope.invoice;
       }
 
       console.log($scope.invoice);

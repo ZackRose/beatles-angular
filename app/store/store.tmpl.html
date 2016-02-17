@@ -27,13 +27,13 @@
         <div class="merchthumb">
 
             <a ng-if="product.itemdetail" class = "itemdetail" href="images/merch/{{product.itemdetail}}" data-width="{{product.imagewidth}}" data-height="{{product.imageheight}}">
-              <img ng-if="product.thumbnail" src="images/merch/{{product.thumbnail}}" />
+              <img ng-if="product.thumbnail" ng-src="images/merch/{{product.thumbnail}}" />
               <img ng-if="!product.thumbnail" src="images/merch/default_thumb.png" />
               <span class="itemdetailtext">See Detail</span>
             </a>
 
             <span ng-if="!product.itemdetail">
-              <img ng-if="product.thumbnail" src="images/merch/{{product.thumbnail}}" />
+              <img ng-if="product.thumbnail" ng-src="images/merch/{{product.thumbnail}}" />
               <img ng-if="!product.thumbnail" src="images/merch/default_thumb.png" />
 
               <span class="itemdetailtext">&nbsp;</span>

@@ -45,19 +45,22 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams)
       {"name": 'Patches', "type": "Patch"}
   ];
 
-  $scope.invoice = [];
-
   $http.get('products.json')
    .then(function(res){
       $scope.products = res.data;
       //console.log($scope.products);
     });
 
-    function itemInCart(item_id, option)
+  $scope.invoice = [];
+
+    function itemInCart(product_id, option)
     {
-      angular.forEach($scope.invoice, function(item, key) {
-        if (item.id == item_id && item.option == option) return true;
-      });
+      for (var i=0; i<$scope.invoice.length; i++)
+      {
+        if ($scope.invoice[i].id == product_id && $scope.invoice[i].option == option) {
+          return true;
+        }
+      }
       return false;
     }
 
@@ -72,11 +75,23 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams)
       }
     }
 
+    function cartQuantity()
+    {
+      var quantity = 0;
+      for (var i=0; i<$scope.invoice.length; i++)
+      {
+        quantity += $scope.invoice[i].qty;
+      }
+      return quantity;
+    }
+
+    $scope.cartQuantity = cartQuantity;
+
     function addToCart(product, selectedoption)
     {
       if (itemInCart(product.id, selectedoption) )
       {
-        itemIncrement(product.id, selectedoption)
+        itemIncrement(product.id, selectedoption);
       }
       else
       {
@@ -93,9 +108,6 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams)
       console.log($scope.invoice);
     }
 
-
-
     $scope.addToCart = addToCart;
-
 
 });

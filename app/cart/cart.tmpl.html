@@ -1,5 +1,10 @@
 <h1>Shopping Cart</h1>
 
+<div ng-if="invoice.length==0">
+<h2>Cart is Empty</h2>
+</div>
+
+<div ng-if="invoice.length > 0">
 <div class="table-responsive cart_items">
 <table class="table table-bordered table-condensed">
   <thead>
@@ -44,7 +49,7 @@
   <h2><a ng-click="cartCheckout()" class= "greenlink">Checkout</a></h2>
   <h2><img src="images/paypal-whitestroke.png" style="height:1.5em; margin-top:1em;" vertical-align="middle" /></h2>
 </div>
-
+</div>
 
 <!--form action="https://sandbox.paypal.com/cgi-bin/webscr" method="post">
   <div ng-repeat="product in invoice">

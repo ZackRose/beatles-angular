@@ -1,2 +1,59 @@
-<h1>Cart</h1>
-<p>Cart Content</p>
+<h1>Shopping Cart</h1>
+
+<div class="table-responsive cart_items">
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Option</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="product in invoice" data-id="{{product.id}}">
+      <td>{{product.name}} [{{product.type}}]</td>
+      <td>{{product.option}}</td>
+      <td class="item-quantity">
+        <a ng-click="itemDecrement(product)"><small><i class="fa fa-minus-square-o"></i></small></a>
+        <strong>{{product.qty}}</strong>
+        <a ng-click="itemIncrement(product)"><small><i class="fa fa-plus-square-o"></i></small></a>
+      </td>
+      <td>{{product.price}}</td>
+      <td>${{product.price * product.qty}}</td>
+      <td><a ng-click="removeItem(product)"><i class="fa fa-times"></i></a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="beatlescart">
+  <h2>
+    SubTotal: ${{cartSubTotal()}} <br /><br />
+    Ship To: <select id="shippingLocation"> <option>USA</option><option>World</option> </select><br />
+    Shipping: ${{cartShipping()}} <br />
+    <hr />
+  </h2>
+
+  <h1 style="font-size:200%; margin-bottom:1.5em;">
+    Grand Total: ${{cartSubTotal() + cartShipping()}}
+  </h1>
+
+  <h2><a ng-click="cartCheckout()" class= "greenlink">Checkout</a></h2>
+  <h2><img src="images/paypal-whitestroke.png" style="height:1.5em; margin-top:1em;" vertical-align="middle" /></h2>
+</div>
+
+
+<!--form action="https://sandbox.paypal.com/cgi-bin/webscr" method="post">
+  <div ng-repeat="product in invoice">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="zackrose-facilitator@gmail.com">
+<input type="hidden" name="item_name" value="{{product.name}} [{{product.type}}] - {{product.option}}">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="amount" value="{{product.price}}">
+</div>
+
+<input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+</form-->

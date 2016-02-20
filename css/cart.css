@@ -1,0 +1,82 @@
+.cart_items table {
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.85);
+  /*background-color: rgba(130,155,0,.80);*/
+  /*background-color: rgba(100, 138, 86, 0.90);*/
+  /*border-radius: 10px;*/
+  width: auto;
+  min-width: 75%;
+  max-height: 75%
+}
+
+.beatlescart {
+  color: white;
+  margin: 20px auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 75%;
+  text-align: center;
+  border: 1px solid rgb(0, 168, 162);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.cart_items table td, .cart_items table th {
+  padding: 0 5px;
+  text-align: center;
+  border: 1px solid green;
+}
+
+.cart_items table td
+{
+  color: black;
+}
+
+.cart_items table th
+{
+  color: rgb(100, 138, 86);
+  font-weight: bolder;
+  font-size: 120%;
+}
+
+.cart_items a
+{
+  color: rgb(100, 138, 86);
+}
+
+.cart_items table .item-quantity
+{
+    padding: 0;
+    border-left: none;
+    border-right: none;
+}
+
+.cart_items table .item-decrement
+{
+  padding-right: 0;
+  border-right: none;
+  font-weight: bold;
+}
+
+.cart_items table .item-increment
+{
+  padding-left: 0;
+  border-left: none;
+  font-weight: bold;
+}
+
+a.simpleCart_checkout.greenlink {
+	color: white;
+	font-size: 150%;
+  margin-right: 0;
+}
+
+a.simpleCart_checkout.greenlink:hover
+{
+  color: black;
+}
+
+#shippingLocation
+{
+  background: white;
+  color: black;
+}

@@ -53,12 +53,12 @@
 
         <div ng-if="product.is_soldout == false" class="input-group" >
           <!--div class="input-group-addon type">{{product.info_type}}</div-->
-          <div class="input-group-addon price item_price">{{product.info_price}}</div>
+          <div class="input-group-addon price">{{product.info_price}}</div>
 
 
             <span ng-if="product.options" class="input-group-addon select-group">
-              <select class="c-select select-item item_size">
-                <option ng-repeat="selectoption in product.options.split('|')">{{selectoption}}</option>
+              <select class="c-select select-item" >
+                <option ng-repeat="selectoption in product.options.split('|')" value="{{selectoption}}">{{selectoption}}</option>
               </select>
             </span>
 

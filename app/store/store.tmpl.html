@@ -57,7 +57,9 @@
 
 
             <span ng-if="product.options" class="input-group-addon select-group">
-              <select class="c-select select-item item_size"><option>options</option></select>
+              <select class="c-select select-item item_size">
+                <option ng-repeat="selectoption in product.options.split('|')">{{selectoption}}</option>
+              </select>
             </span>
 
 

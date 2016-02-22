@@ -254,9 +254,9 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       var highestRate = getHighestShippingRate();
       //console.log("getHighestShippingRate: |"+highestRate+"|");
 
-      $.each(itemTypes, function(i, item)
+      $.each(itemTypes, function(i, qty)
       {
-        if (item > 0)
+        if (qty > 0)
         {
 
           if (cartQuantity() > 1)
@@ -264,15 +264,15 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
             if (i==highestRate)
             {
               total+=shippingRates[i][$scope.shipping_location+"_1"];
-              total+=shippingRates[i][$scope.shipping_location+"_add"] * (item -1);
+              total+=shippingRates[i][$scope.shipping_location+"_add"] * (qty -1);
             }
             else {
-              total+=shippingRates[i][$scope.shipping_location+"_add"] * item;
+              total+=shippingRates[i][$scope.shipping_location+"_add"] * qty;
             }
           }
           else {
 
-            total=shippingRates[i][$scope.shipping_location+"_1"] * item;
+            total=shippingRates[i][$scope.shipping_location+"_1"] * qty;
           }
       }
       });

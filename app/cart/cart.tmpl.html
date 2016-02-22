@@ -26,7 +26,7 @@
         <strong>{{product.qty}}</strong>
         <a ng-click="itemIncrement(product)"><small><i class="fa fa-plus-square-o"></i></small></a>
       </td>
-      <td>{{product.price}}</td>
+      <td>${{product.price}}</td>
       <td>${{product.price * product.qty}}</td>
       <td><a ng-click="removeItem(product)"><i class="fa fa-times"></i></a></td>
     </tr>
@@ -47,7 +47,7 @@
     Grand Total: ${{cartSubTotal() + cartShipping()}}
   </h1>
 
-  <h2><a ng-click="cartCheckout()" class= "greenlink">Checkout</a></h2>
+  <h2><a ng-click="cartCheckout()" style="margin:0" class= "greenlink">Checkout</a></h2>
   <h2><img src="images/paypal-whitestroke.png" style="height:1.5em; margin-top:1em;" vertical-align="middle" /></h2>
 </div>
 </div>

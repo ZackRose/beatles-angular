@@ -6,7 +6,8 @@
   /*border-radius: 10px;*/
   width: auto;
   min-width: 75%;
-  max-height: 75%
+  max-height: 75%;
+  border-radius: 5px;
 }
 
 .beatlescart {
@@ -15,8 +16,8 @@
   background-color: rgba(0, 0, 0, 0.7);
   width: 75%;
   text-align: center;
-  border: 1px solid rgb(0, 168, 162);
-  border-radius: 20px;
+  border: 1px solid #999;
+  border-radius: 5px;
   padding: 20px;
 }
 

@@ -57,14 +57,15 @@
 
 
             <span ng-if="product.options" class="input-group-addon select-group">
-              <select class="c-select select-item" >
-                <option ng-repeat="selectoption in product.options.split('|')" value="{{selectoption}}">{{selectoption}}</option>
+              {{initSelectOption(product)}}
+              <select ng-model="product.selectedoption" ng-options="selectoption for selectoption in product.options.split('|')" class="c-select">
+
               </select>
             </span>
 
 
           <div class="input-group-btn">
-          <button name="type" type="button" value="add" ng-click="addToCart(product, 'nothing')" class="btn btn-success item_add pull-left">Add</button>
+          <button name="type" type="button" value="add" ng-click="addToCart(product)" class="btn btn-success item_add pull-left">Add</button>
           </div>
 
         </div>

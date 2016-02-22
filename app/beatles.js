@@ -59,19 +59,39 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
 
     //** Cart object and methods **\\
 
-    //Load cart from localStorage
+    //Load cart from localStorage.
+    //the module automatically updates so that the localStorage var is in sync,
+    //so once we set one way or the other, no more work needs to be done
     if ($localStorage.beatlesCart === undefined) {
       $scope.invoice = [];
+      $localStorage.beatlesCart = $scope.invoice;
     }
     else {
       $scope.invoice = $localStorage.beatlesCart;
     }
 
-    function getItemById(product_id, option)
+    function initSelectOption(item)
+    {
+      if (item.options && !item.selectedoption)
+      {
+        var itemOptions = item.options.split("|");
+        if (itemOptions.length > 0)
+        {
+          item.selectedoption = itemOptions[0];
+        }
+      }
+
+    }
+
+    $scope.initSelectOption = initSelectOption;
+
+    function getItemById(product)
     {
       for (var i=0; i<$scope.invoice.length; i++)
       {
-        if ($scope.invoice[i].id == product_id && $scope.invoice[i].option == option) {
+        //key for item is id and selectedoption (for example a Small T-Shirt)
+        //if there is no option, the match will be "undefined"
+        if ($scope.invoice[i].id == product.id && $scope.invoice[i].option == product.selectedoption) {
           return $scope.invoice[i];
         }
       }
@@ -91,6 +111,7 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
       {
         removeItem(item);
       }
+
     }
 
     $scope.itemIncrement = itemIncrement;
@@ -108,9 +129,10 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
     }
 
     //add a product to the cart
-    function addToCart(product, selectedoption)
+    function addToCart(product)
     {
-      var item = getItemById(product.id, selectedoption);
+
+      var item = getItemById(product);
 
       if ( $scope.invoice.indexOf(item) > -1 )
       {
@@ -125,26 +147,42 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
           name: product.info_title,
           type: product.info_type,
           price: product.info_price,
-          option: selectedoption,
+          option: product.selectedoption,
           qty: 1
         });
-        $localStorage.beatlesCart = $scope.invoice;
+
       }
 
     }
 
+    function removeItem(item) {
+        var index = $scope.invoice.indexOf(item);
+        $scope.invoice.splice(index, 1);
+     }
+
+    $scope.removeItem = removeItem;
     $scope.cartQuantity = cartQuantity;
     $scope.addToCart = addToCart;
     $scope.cartSubTotal = cartSubTotal;
 
     //Cart Calculations
 
-    var defaultShippingLocation = "USA";
+    $scope.shippingLocations = ["USA","World"];
 
     if ($localStorage.beatlesShippingLocation === undefined) {
-      $localStorage.beatlesShippingLocation = defaultShippingLocation;
+      //console.log("switch to default");
+      $scope.shipping_location = $scope.shippingLocations[0];
+      $localStorage.beatlesShippingLocation = $scope.shipping_location;
+    }
+    else {
+      //console.log("switch to localStorage:",$localStorage.beatlesShippingLocation);
+      $scope.shipping_location = $localStorage.beatlesShippingLocation;
     }
 
+
+
+    //This is the info for the shipping algorithm.
+    //It follows the "x price for 1, y for each additional" formula
     var shippingRates = {
       Shirt: {USA_1: 5, USA_add: 3, World_1: 13, World_add: 5},
       Vinyl: {USA_1: 6, USA_add: 4, World_1: 15, World_add: 5},
@@ -163,26 +201,25 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
     }
     $scope.cartSubTotal = cartSubTotal;
 
-    function shippingLocation(){
-      return $localStorage.beatlesShippingLocation;
-    }
-
+    //Calculate item with highest shipping rate in cart.
+    //This will be used as the base price, all other items will use the "additional"
+    //shipping price.  This is roughly the algorithm used in BigCartel and others.
     function getHighestShippingRate()
     {
       var highestRate=0;
       var highest="";
 
       itemTypes=getItemTypes();
-      //console.log(itemTypes);
-      $.each(shippingRates, function(i, item)
+
+      $.each(shippingRates, function(i, rate)
       {
         //console.log("i: "+i);
         if (itemTypes[i]>0)
         {
           //console.log("i in cartItems");
-          if (item[shippingLocation()+"_1"] > highestRate)
+          if (rate[$scope.shipping_location+"_1"] > highestRate)
           {
-            highestRate = item[shippingLocation()+"_1"];
+            highestRate = rate[$scope.shipping_location+"_1"];
             highest = i;
           }
         }
@@ -190,13 +227,6 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
 
     return highest;
     }
-
-  function removeItem(item) {
-      var index = $scope.invoice.indexOf(item);
-      $scope.invoice.splice(index, 1);
-   }
-
-   $scope.removeItem = removeItem;
 
     function getItemTypes()
     {
@@ -207,25 +237,22 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
         cartTypes[item.type]+=item.qty;
       });
 
-      //console.log("cartTypes", cartTypes);
       return cartTypes;
     }
 
     //Calculate shipping
-    function cartShipping () {
+    function cartShipping() {
 
       if (cartQuantity() == 0) { return 0; }
 
       var itemTypes = getItemTypes();
 
-      var first = shippingLocation() + "_1";
-      var additional = shippingLocation() + "_add";
+      var first = $scope.shipping_location + "_1";
+      var additional = $scope.shipping_location + "_add";
 
       var total = 0;
       var highestRate = getHighestShippingRate();
-
-      //console.log(itemTypes);
-      //console.log(highestRate);
+      //console.log("getHighestShippingRate: |"+highestRate+"|");
 
       $.each(itemTypes, function(i, item)
       {
@@ -236,27 +263,34 @@ Beatles.controller('StoreControl', function($scope, $state, $http, $stateParams,
           {
             if (i==highestRate)
             {
-              total+=shippingRates[i][shippingLocation()+"_1"];
-              total+=shippingRates[i][shippingLocation()+"_add"] * (item -1);
+              total+=shippingRates[i][$scope.shipping_location+"_1"];
+              total+=shippingRates[i][$scope.shipping_location+"_add"] * (item -1);
             }
             else {
-              total+=shippingRates[i][shippingLocation()+"_add"] * item;
+              total+=shippingRates[i][$scope.shipping_location+"_add"] * item;
             }
           }
           else {
 
-            total=shippingRates[i][shippingLocation()+"_1"] * item;
+            total=shippingRates[i][$scope.shipping_location+"_1"] * item;
           }
       }
       });
 
       return total;
+
     };
+
+    function updateShippingLocation() {
+      /* ToDo: Fix this terrible jQuery hack */
+      /* (locate bug causing shippingLocation to reset) */
+      $localStorage.beatlesShippingLocation = $scope.shipping_location = $("#shippingLocation option:selected").text();
+    }
+
+    $scope.updateShippingLocation = updateShippingLocation;
 
     $scope.cartShipping = cartShipping;
 
     function cartCheckout(){console.log("checkout");}
     $scope.cartCheckout = cartCheckout;
-
-    console.log("invoice", $scope.invoice);
 });

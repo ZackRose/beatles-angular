@@ -37,7 +37,8 @@
 <div class="beatlescart">
   <h2>
     SubTotal: ${{cartSubTotal()}} <br /><br />
-    Ship To: <select id="shippingLocation"> <option>USA</option><option>World</option> </select><br />
+    Ship To: <select ng-change="updateShippingLocation()" ng-model="shipping_location" ng-options="shippingOption for shippingOption in shippingLocations" id="shippingLocation">
+    </select><br />
     Shipping: ${{cartShipping()}} <br />
     <hr />
   </h2>
